@@ -1,0 +1,11 @@
+.tab {
+  display: inline-block;
+  z-index: 10;
+  position: relative;
+}
+
+@media screen and (max-width: 800px) {
+  .tab {
+    width: 100%;
+  }
+}

@@ -1,0 +1,22 @@
+"use strict";
+exports.__esModule = true;
+var express = require("express");
+var cors = require("cors");
+var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
+var api_route_1 = require("./routes/api.route");
+var socket_1 = require("../sockets/socket");
+console.log(process.env.NODE_ENV);
+var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/api', api_route_1.api);
+app.use(express.static(__dirname + '/dist/prostagma'));
+var server = app.listen(8083, function () {
+    console.log('listening...');
+});
+socket_1.sockets(server);

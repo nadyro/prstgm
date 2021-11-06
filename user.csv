@@ -1,0 +1,13 @@
+{"_id":{"$oid":"5dd561e60db4dd167a8afaa7"},"email":"nadir.sehnoun@gmail.com","username":"Perion","isAdmin":1.0,"lastModified":{"$date":"2019-11-20T15:57:30.128Z"},"socketId":"/chat#MewgluTFpUL5hAncAAAE"}
+{"_id":{"$oid":"5e550d68b1963663a59c7ed2"},"email":"hsehnoun@gmail.com","username":"MrHermit","socketId":"/chat#L2dYNYgCRM8OmRqEAAAF"}
+{"_id":{"$oid":"5e58ee76f5463c7d31fe7cce"},"email":"ksehnoun@gmail.com","username":"Karim","socketId":"/chat#kV485GWQ_VstDeB1AAAH"}
+{"_id":{"$oid":"5e5d769e15e52dda8080ab3a"},"email":"riven@gmail.com","username":"Riven","socketId":"/chat#ef_lZZ86hn-FebofAABQ"}
+{"_id":{"$oid":"5e5d79ac2520a0e13f7cc682"},"email":"leesin@gmail.com","username":"Lee Sin","socketId":"/chat#OaQHI0xEoKJpJmPvAABp"}
+{"_id":{"$oid":"5e5d79d42520a0e13f7cc683"},"email":"karthus@gmail.com","username":"Karthus","socketId":"/chat#o1X1kKD_xbnvv5kjAADY"}
+{"_id":{"$oid":"5e6605eacf55fe94f52865bf"}}
+{"_id":{"$oid":"5eed28bf3cf8b5181633806a"},"email":"vongola@gmail.com","username":"Vongola","isAdmin":1,"socketId":"/chat#TRCHzejM-Ou2_r-yAAAE"}
+{"_id":{"$oid":"5eed296b3cf8b5181633806b"},"email":"jeanne@gmail.com","username":"Jeanne","isAdmin":1,"socketId":"/chat#wXo1W7vqcWHMXr6EAAAL"}
+{"_id":{"$oid":"5eed305e3cf8b5181633806d"},"email":"kiljaeden@gmail.com","username":"Kil'Jaeden","isAdmin":1,"socketId":"/chat#1atAqCS-cAwQaTNTAAAS"}
+{"_id":{"$oid":"5eed35943cf8b5181633806e"},"email":"riven@gmail.com","username":"","isAdmin":1,"socketId":"/chat#Ha9wt55vNIZAEpgQAAAV"}
+{"_id":{"$oid":"5eed39223cf8b5181633806f"},"email":"Lot@gmail.com","username":"Lot","isAdmin":1,"socketId":"/chat#6VzN2nbsJ_svER2iAAAw"}
+{"_id":{"$oid":"5eed43cd3cf8b51816338070"},"email":"Kakulu@gmail.com","username":"Kakulu","isAdmin":1,"socketId":"/chat#QZIj4K94X-UriS62AABc"}

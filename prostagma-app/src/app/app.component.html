@@ -1,0 +1,16 @@
+<div class="container" *ngIf="authService.isLoggedIn">
+  <div class="row">
+  <div class="header-container col">
+    <app-header class="header"></app-header>
+  </div>
+  <app-chat-requests-view *ngIf="currentUrl !== 'profile'" class="col-4 crv-container"></app-chat-requests-view>
+  </div>
+  <div class="header-mobile col-12">
+    <app-header class="header"></app-header>
+  </div>
+</div>
+<router-outlet></router-outlet>
+
+<footer class="row">
+  <app-footer class="app-footer"></app-footer>
+</footer>

@@ -1,0 +1,28 @@
+<!--{{messageReceived.length > 0 && !messageReceived[messageReceived.length - 1].read ? 'unread-message' : 'read-message'}}-->
+<div #tab
+     class="tab">
+  <div class="displayable" (click)="displayChatRequest(chatRequest, tab)"></div>
+  <a [routerLink]="['/profile']" [queryParams]="{id: chatRequest._id}">{{chatRequest.username}}</a>
+  <img class="closeChatRequest" src="../../assets/images/refuse.png" (click)="closeChatRequest(chatRequest)">
+</div>
+
+<div class="conversation">
+  <p>{{loginStatusMessage}}</p>
+  <div class="messages-container">
+    <p *ngFor="let message of messageReceived" class="{{
+          message.sender.username === authService.userProfile.username ?
+          'display-message-right' : 'display-message-left'}}">
+      {{message.content}}
+      <span>{{message.receptionDate | date}}</span>
+    </p>
+  </div>
+  <div class="text-container">
+    <div class="text">
+      <textarea #message class="col-10" placeholder="Type a message"
+                (keyup.enter)="sendSimpleMessage(message, 0)"></textarea>
+      <div class="mobile-only send-message" (click)="sendSimpleMessage(message, 0)">
+        <img src="../../assets/images/sharp_send_white_24dp.png">
+      </div>
+    </div>
+  </div>
+</div>

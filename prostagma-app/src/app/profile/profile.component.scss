@@ -1,0 +1,21 @@
+:host {
+  padding: 0 10px;
+}
+.p {
+  padding: 10px;
+  color: white;
+  box-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+.p-p {
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  border: solid 2px white;
+  background-size: 100% 100% !important;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  display: inline-block;
+}
+.p-i {
+  display: inline-block;
+  vertical-align: top;
+}

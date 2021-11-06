@@ -1,0 +1,99 @@
+<div class="container-fluid container-elem-test elem-test-col">
+  <div class="row">
+    <div class="d-inline-block container-friend-list">
+      <ng-select class="custom"
+                 notFoundText="No user online"
+                 [addTag]="false"
+                 loadingText="Please wait..."
+                 [items]="users"
+                 bindLabel="username"
+                 (change)="startChatRequest($event[0])"
+                 placeholder="Type a username to start a conversation"
+                 multiple="false">
+      </ng-select>
+      <mat-accordion>
+        <mat-expansion-panel cdkDropList #friendsChatRequestsList='cdkDropList'
+                             cdkDropListOrientation="vertical"
+                             [cdkDropListData]="chatRequests"
+                             [cdkDropListConnectedTo]="[teamChatRequestsList, archivedChatRequestsList]"
+                             (cdkDropListDropped)="drop($event)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Online
+            </mat-panel-title>
+            <mat-panel-description>
+              Users online
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="drop-list cr">
+            <div #elemcard class="elem-test drop-element" id="{{user._id}}"
+                 (click)="startChatRequest(user)" cdkDragBoundary=".container-elem-test"
+                 *ngFor="let user of users"
+                 cdkDrag>
+              <div class="">
+                <h4 class="">{{user.username}}</h4>
+              </div>
+              <img src="../../assets/images/travel_by_air.jpg" class="conv-img">
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel cdkDropList #teamChatRequestsList='cdkDropList'
+                             cdkDropListOrientation="vertical"
+                             [cdkDropListData]="teamChatRequests"
+                             [cdkDropListConnectedTo]="[friendsChatRequestsList, archivedChatRequestsList]"
+                             (cdkDropListDropped)="drop($event)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Team
+            </mat-panel-title>
+            <mat-panel-description>
+              Your team members
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="drop-list cr">
+            <div #elemcard class="elem-test drop-element card" id="{{tcr._id}}" cdkDragBoundary=".container-elem-test"
+                 *ngFor="let tcr of teamChatRequests"
+                 (mousedown)="selectCard(elemcard)"
+                 cdkDrag>
+              <div class="card-body">
+                <h5 class="card-title">{{tcr.requester.username}}</h5>
+                <p class="card-text">{{tcr.creationDate | date}}</p>
+              </div>
+              <img src="../../assets/images/travel_by_air.jpg" class="card-img-top">
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel cdkDropList
+                             cdkDropListOrientation="vertical"
+                             #archivedChatRequestsList='cdkDropList'
+                             [cdkDropListData]="archivedChatRequests"
+                             [cdkDropListConnectedTo]="[teamChatRequestsList, friendsChatRequestsList]"
+                             (cdkDropListDropped)="drop($event)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Archived
+            </mat-panel-title>
+            <mat-panel-description>
+              Archived conversations
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="drop-list cr">
+            <div #elemcard class="elem-test drop-element card" id="{{acr._id}}" cdkDragBoundary=".container-elem-test"
+                 *ngFor="let acr of archivedChatRequests"
+                 (mousedown)="selectCard(elemcard)"
+                 cdkDrag>
+              <div class="card-body">
+                <h5 class="card-title">{{acr.requester.username}}</h5>
+                <p class="card-text">{{acr.creationDate | date}}</p>
+              </div>
+              <img src="../../assets/images/travel_by_air.jpg" class="card-img-top">
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
+  </div>
+</div>

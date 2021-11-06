@@ -1,0 +1,123 @@
+.tab {
+  z-index: 11;
+  width: 300px;
+  padding: 10px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  position: relative;
+  background: #5566ae;
+  color: white;
+}
+.displayable {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  height: 100%;
+  top: 0;
+  z-index: 1;
+}
+.tab a{
+  position: relative;
+  color: white;
+  z-index: 2;
+}
+.tab img {
+  z-index: 2;
+}
+
+.extendedTab {
+  bottom: 300px;
+}
+
+.conversation {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: none;
+  display: none;
+  height: 300px;
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}
+
+.conversation textarea {
+  overflow: auto;
+  resize: none;
+  height: 30px;
+  width: 80%;
+  border: none;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .8);
+}
+
+.text-container {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  left: 0;
+  padding: 0 5px;
+}
+
+.text-container .text {
+  position: relative;
+}
+
+.messages-container {
+  height: 90%;
+  padding: 5px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.display-message-right {
+  border-top-left-radius: 35px;
+  transform: translateX(100%);
+}
+
+.display-message-left {
+  border-top-right-radius: 35px;
+}
+
+.unread-message {
+  background: lightcoral;
+}
+
+.read-message {
+  background: lightgreen;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.closeChatRequest {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  top: 50%;
+  width: 30px;
+}
+
+@media screen and (max-width: 800px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .mobile-only.send-message {
+    background: #5566ae;
+    padding: 8px;
+    text-align: center;
+    width: 12%;
+    border-radius: 25px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .conversation textarea {
+    height: unset;
+  }
+  .tab {
+    width: 100%;
+  }
+}
+

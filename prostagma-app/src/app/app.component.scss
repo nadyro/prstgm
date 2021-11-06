@@ -1,0 +1,36 @@
+.header-container {
+  padding: 0;
+  position: relative;
+  height: 80px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  width: 100%;
+}
+.header-container, .crv-container {
+  display: inline-flex;
+}
+footer {
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+}
+.header-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  footer, app-footer {
+    width: 100%;
+  }
+  .crv-container {
+    float: left;
+  }
+  .header-container {
+    display: none;
+  }
+  .header-mobile {
+    display: block;
+  }
+}

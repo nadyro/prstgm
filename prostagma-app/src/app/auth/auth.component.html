@@ -1,0 +1,61 @@
+<div class="auth col-md-12 col-sm-12">
+  <div class="auth_children subscribe col-md-5 col-sm-5">
+    <h4>First connection ?</h4>
+    <div class="form_errors">
+      <div *ngIf="password.invalid" class="form_error">
+        <h6>Warning! Your attention is required here!</h6>
+        <div *ngIf="password.invalid && password.errors.pattern">
+          <ul>
+            Your password must follow these prerequesites :
+            <li>
+              Contain at least
+              <b>one upper case letter</b>
+            </li>
+            <li>
+              Contain at least
+              <b>one lower case letter</b>
+            </li>
+            <li>
+              Contain at least
+              <b>one number</b>
+            </li>
+            <li>
+              Contain at least
+              <b>one special character</b>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="authSubscribeForm" (ngSubmit)="onSubmit()">
+      <div class="first_part">
+        <div class="form-group">
+          <label>
+            Email :
+            <input type="text" formControlName="email" class="form-control auth_child">
+          </label>
+
+        </div>
+        <div class="form-group">
+          <label>
+            Password :
+            <input type="password" formControlName="password" class="form-control auth_child">
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            Username :
+            <input type="text" formControlName="username" class="form-control auth_child">
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary auth_submit">Submit</button>
+    </form>
+    <div class="to_login">
+      <p>
+        Already have an Account ?
+        <a routerLink="/auth_login" *ngIf="!authService.isLoggedIn" routerLinkActive="active">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>
