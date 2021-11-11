@@ -3,6 +3,7 @@ import {generateSchema} from "../../schemas/generateSchema";
 import {dbConnect} from "../../tools/db/db.tools";
 import {AuthResults} from "../../../models/AuthResults";
 import {Credentials} from "../../../models/Credentials";
+import * as DB_CONST from "../../tools/db/db.constants";
 
 const mongoose = require("mongoose");
 const userSchema = generateSchema(Users);
@@ -38,12 +39,12 @@ function sendAuthResults(err: any, data: Users): AuthResults {
 export const saveUser = async (req: any, res: any) => {
   try {
     let authResults;
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const User = mongoose.model('User', userSchema);
+      const User = mongoose.model(DB_CONST.MODEL_USER, userSchema);
       const newUser = new User({
         email: req.body.email,
         password: req.body.password,

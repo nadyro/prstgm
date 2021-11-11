@@ -10,6 +10,7 @@ export function generateSchema<T>(objectClass: T): Schema {
       const ob = {
         [keys]: typeof newObject[keys]
       };
+      // @ts-ignore
       objToSchema[keys] = ob[keys];
     }
   });

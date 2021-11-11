@@ -4,6 +4,7 @@ import {Notifications} from "../../../models/Notifications";
 import {ChatRequests} from "../../../models/ChatRequests";
 import {Conversation} from "../../../models/Conversation";
 import {Message} from "../../../models/Message";
+import * as DB_CONST from "../../tools/db/db.constants";
 
 const ObjectId = require('mongodb').ObjectID;
 
@@ -14,17 +15,18 @@ const conversationSchema = generateSchema(Conversation);
 
 export async function initNewConversation(req: any, res: any) {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const ConversationModel = mongoose.model('Conversation', conversationSchema);
-      const collection = dbConnection.collection('conversations');
+      const ConversationModel = mongoose.model(DB_CONST.MODEL_CONVERSATION, conversationSchema);
+      const collection = dbConnection.collection(DB_CONST.DB_CONVERSATION);
       collection.findOneAndUpdate({chatRequestId: req.query.chatRequestId}, {
         $set: {
           lastOpenedDate: Date.now()
         }
+        // @ts-ignore
       }, {returnOriginal: false}, (err: any, doc: any) => {
         console.log(doc);
         let newConversation = doc.value;
@@ -57,14 +59,14 @@ export async function initNewConversation(req: any, res: any) {
 
 export async function initChatRequest(req: any, res: any) {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const Notification = mongoose.model('Notification', notificationSchema);
-      const ChatRequest = mongoose.model('ChatRequest', chatRequestSchema);
-      const collection = dbConnection.collection('chatrequests');
+      const Notification = mongoose.model(DB_CONST.MODEL_NOTIFICATION, notificationSchema);
+      const ChatRequest = mongoose.model(DB_CONST.MODEL_CHAT_REQUEST, chatRequestSchema);
+      const collection = dbConnection.collection(DB_CONST.DB_CHAT_REQUESTS);
       collection.findOneAndUpdate({
         $and: [
           {roomId: {$regex: ".*" + req.query.requester._id + ".*"}},
@@ -75,6 +77,7 @@ export async function initChatRequest(req: any, res: any) {
           requesterSocketId: req.query.requesterSocketId,
           fulfilled: req.query.fulfilled
         }
+        // @ts-ignore
       }, {returnOriginal: false}, (error: any, doc: any) => {
         const chatRequest: ChatRequests = doc.value;
         if (chatRequest) {
@@ -132,13 +135,13 @@ export async function initChatRequest(req: any, res: any) {
 
 export const getAllChatRequests = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('chatrequests');
-      collection.find({}).toArray((err, chatRequests: ChatRequests[]) => {
+      const collection = dbConnection.collection(DB_CONST.DB_CHAT_REQUESTS);
+      collection.find({}).toArray((err, chatRequests: ChatRequests[] | any) => {
         if (chatRequests) {
           console.log('existing');
         } else {
@@ -155,14 +158,14 @@ export const getAllChatRequests = async (req: any, res: any) => {
 export const getChatRequests = async (req: any, res: any) => {
   try {
     const chatRequestsToReturn: ChatRequests[] = new Array<ChatRequests>();
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('chatrequests');
-      collection.find({}).toArray((err, chatRequest: ChatRequests[]) => {
-        chatRequest.forEach(cr => {
+      const collection = dbConnection.collection(DB_CONST.DB_CHAT_REQUESTS);
+      collection.find({}).toArray((err, chatRequest: ChatRequests[] | any) => {
+        chatRequest.forEach((cr: ChatRequests) => {
           if (cr.recipient._id === req.body.recipientId || cr.requester._id === req.body.recipientId) {
             chatRequestsToReturn.push(cr);
           }
@@ -177,12 +180,12 @@ export const getChatRequests = async (req: any, res: any) => {
 
 export const updateChatRequest = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('chatrequests');
+      const collection = dbConnection.collection(DB_CONST.DB_CHAT_REQUESTS);
       collection.findOneAndUpdate({
         _id: ObjectId(req.query._id)
       }, {
@@ -191,6 +194,7 @@ export const updateChatRequest = async (req: any, res: any) => {
           fulfilled: req.query.fulfilled
         }
       }, {
+        // @ts-ignore
         returnOriginal: false
       }, (err: any, doc: any) => {
         res.send(doc.value);

@@ -3,8 +3,8 @@ import {Users} from "./Users";
 
 export class AuthResults {
   success: boolean;
-  object: Users;
-  credentials: Credentials;
+  object: Users | null;
+  credentials: Credentials | null;
   message: string;
 
   constructor() {

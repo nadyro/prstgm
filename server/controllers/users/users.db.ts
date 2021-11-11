@@ -1,16 +1,16 @@
-import {Users} from "../../../models/Users";
 import {dbConnect} from "../../tools/db/db.tools";
+import * as DB_CONST from "../../tools/db/db.constants";
 
 const ObjectId = require('mongodb').ObjectID;
 
 export const getUsers = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.find({online: 1}).toArray((err, docs: any) => {
         if (docs) {
           return res.send(docs);
@@ -32,7 +32,7 @@ export const getUserById = async (req: any, res: any) => {
   try {
     let id = '';
     console.log('WEEEEESH');
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
@@ -43,7 +43,7 @@ export const getUserById = async (req: any, res: any) => {
 
     console.log('USER' + id);
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.findOne({_id: ObjectId(id)}, (err, doc: any) => {
         if (doc) {
           if (res) {
@@ -76,12 +76,12 @@ export const getUserById = async (req: any, res: any) => {
 
 export const getUserByEmail = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.findOne({email: req.body.email}, (err, doc: any) => {
         if (doc) {
           return res.send(doc);

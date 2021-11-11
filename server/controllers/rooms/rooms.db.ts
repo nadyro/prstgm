@@ -1,23 +1,22 @@
 import {generateSchema} from "../../schemas/generateSchema";
 import {dbConnect} from "../../tools/db/db.tools";
 import {Rooms} from "../../../models/Rooms";
-import {Users} from "../../../models/Users";
 import {ErrorCodes} from "../../tools/errors/errorCodes";
+import * as DB_CONST from "../../tools/db/db.constants";
 
-const ObjectIdObjectId = require('mongodb').ObjectID;
 const mongoose = require("mongoose");
 
 const roomSchema = generateSchema(Rooms);
 
 export async function getRoomsByUserId(req: any, res: any) {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('rooms');
-      collection.find({'users._id': req.query._id}).toArray((err: any, doc: Rooms[]) => {
+      const collection = dbConnection.collection(DB_CONST.DB_ROOMS);
+      collection.find({'users._id': req.query._id}).toArray((err: any, doc: Rooms[] | any) => {
         if (doc) {
           res.send(doc);
         } else {
@@ -32,17 +31,18 @@ export async function getRoomsByUserId(req: any, res: any) {
 
 export async function getAndUpdateRoomByChatRequestId(req: any, res: any) {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('rooms');
+      const collection = dbConnection.collection(DB_CONST.DB_ROOMS);
       collection.findOneAndUpdate({chatRequestId: req.query._id}, {
         $set: {
           chatRequest: req.query,
           lastOpenedDate: Date.now()
         }
+        // @ts-ignore
       }, {returnOriginal: false}, (err: any, doc: any) => {
         res.send(doc.value);
       })
@@ -54,19 +54,20 @@ export async function getAndUpdateRoomByChatRequestId(req: any, res: any) {
 
 export async function saveRoom(req: any, res: any) {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err: any) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const Room = mongoose.model('Rooms', roomSchema);
-      const collection = dbConnection.collection('rooms');
+      const Room = mongoose.model(DB_CONST.MODEL_ROOMS, roomSchema);
+      const collection = dbConnection.collection(DB_CONST.DB_ROOMS);
       collection.findOneAndUpdate({userIds: req.query.userIds}, {
         $set: {
           roomId: req.query.roomId,
           users: req.query.users,
           lastOpenedDate: Date.now()
         }
+        // @ts-ignore
       }, {returnOriginal: false}, (err: any, doc: any) => {
         let newRoom = doc.value;
         if (newRoom) {

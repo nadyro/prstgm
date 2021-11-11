@@ -1,13 +1,12 @@
 import {Users} from "../../../models/Users";
 import {dbConnect} from "../../tools/db/db.tools";
 import {AuthResults} from "../../../models/AuthResults";
-import {ErrorsText} from "../../tools/errors/errorCodes";
 import {ErrorCodes} from "../../tools/errors/errorCodes";
-
+import * as DB_CONST from "../../tools/db/db.constants";
 const ObjectId = require('mongodb').ObjectID;
 
 function sendAuthResults(docs: Users, password: string): AuthResults {
-  let authResults;
+  let authResults: AuthResults;
   if (docs) {
     if (docs.password === password) {
       console.log("Login Successful");
@@ -45,14 +44,14 @@ function sendAuthResults(docs: Users, password: string): AuthResults {
 export const userConnectionWithLS = async (req: any, res: any) => {
   let authResults;
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     console.log('Attempting to log in...');
     dbConnection.on('error', (err: any) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
-      collection.findOne({email: req.body.email}, (err: any, doc: Users) => {
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
+      collection.findOne({email: req.body.email}, (err: any, doc: Users | any) => {
         authResults = sendAuthResults(doc, doc.password);
         dbConnection.close();
         return res.send(authResults);
@@ -65,13 +64,13 @@ export const userConnectionWithLS = async (req: any, res: any) => {
 
 export const updateUserSocketId = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     console.log('Attempting to log in');
     dbConnection.on('error', (err: any) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.findOneAndUpdate({
         _id: ObjectId(req.query.userId)
       }, {
@@ -79,6 +78,7 @@ export const updateUserSocketId = async (req: any, res: any) => {
           socketId: req.query.socketId,
         }
       }, {
+        // @ts-ignore
         returnOriginal: false
       }, (err: any, doc: any) => {
         return res.send(doc.value);
@@ -91,14 +91,14 @@ export const updateUserSocketId = async (req: any, res: any) => {
 
 export const getUserBySocketId = async (req: any, res: any) => {
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err: any) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.find({socketId: {$in: req.query.socketIds}})
-        .toArray((err: any, doc: Users[]) => {
+        .toArray((err: any, doc: Users[] | any) => {
           if (doc.length > 0) {
             return res.send(doc);
           } else
@@ -111,8 +111,8 @@ export const getUserBySocketId = async (req: any, res: any) => {
 };
 export const signOutUser = async (req: any, res: any) => {
   try {
-    let id;
-    const dbConnection = dbConnect('prostagma');
+    let id = "";
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     dbConnection.on('error', (err: any) => {
       console.error(err);
     });
@@ -122,7 +122,7 @@ export const signOutUser = async (req: any, res: any) => {
       id = req.body.userID;
     if (id) {
       dbConnection.once('open', () => {
-        const collection = dbConnection.collection('users');
+        const collection = dbConnection.collection(DB_CONST.DB_USERS);
         collection.findOneAndUpdate({
           _id: ObjectId(id)
         }, {
@@ -130,6 +130,7 @@ export const signOutUser = async (req: any, res: any) => {
             online: 0,
           }
         }, {
+          // @ts-ignore
           returnOriginal: false
         }, (err: any, doc: any) => {
           console.log(doc.value);
@@ -144,14 +145,13 @@ export const signOutUser = async (req: any, res: any) => {
 export const userConnection = async (req: any, res: any) => {
   let authResults;
   try {
-    const dbConnection = dbConnect('prostagma');
+    const dbConnection = dbConnect(DB_CONST.DB_NAME);
     console.log('Attempting to log in...');
-    console.log('TA GRNAD MERE')
     dbConnection.on('error', (err) => {
       console.error(err);
     });
     dbConnection.once('open', () => {
-      const collection = dbConnection.collection('users');
+      const collection = dbConnection.collection(DB_CONST.DB_USERS);
       collection.findOne({email: req.body.email}, ((err: any, docs: any) => {
         authResults = sendAuthResults(docs, req.body.password);
         if (authResults.success === true) {
@@ -162,7 +162,9 @@ export const userConnection = async (req: any, res: any) => {
               online: 1,
             }
           }, {
+            // @ts-ignore
             returnOriginal: false
+            // tslint:disable-next-line:no-empty
           }, (e: any, doc: any) => {
           });
         }
